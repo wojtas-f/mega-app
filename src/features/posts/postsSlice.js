@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from '@reduxjs/toolkit';
 
 const initialState = [
     { id: '1', title: 'Learning redux', content: 'Lorem ipsum' },
@@ -9,8 +10,19 @@ const postsSlice = createSlice({
     name: 'posts',
     initialState,
     reducers: {
-        postAdd(state, action) {
-            state.push(action.payload); // uses immerjs to modify state so it's not direct modification of the state, works only in slices
+        postAdd: {
+            reducer(state, action) {
+                state.push(action.payload); // uses immerjs to modify state so it's not direct modification of the state, works only in slices
+            },
+            prepare(title, content) {
+                return {
+                    payload: {
+                        id: nanoid(),
+                        title,
+                        content,
+                    },
+                };
+            },
         },
     },
 });

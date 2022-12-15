@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit'; //generate random id
+import { Form, Button } from 'react-bootstrap';
 
 import { postAdd } from './postsSlice';
 
@@ -14,7 +15,7 @@ const AddPostForm = () => {
 
     const onSavePost = () => {
         if (title && content) {
-            dispatch(postAdd({ id: nanoid(), title, content }));
+            dispatch(postAdd(title, content));
         }
 
         setTitle('');
@@ -24,9 +25,9 @@ const AddPostForm = () => {
     return (
         <section>
             <h2>Add a new post</h2>
-            <form>
-                <label htmlFor="postTitle">Post Title</label>
-                <input
+            <Form>
+                <Form.Label htmlFor="postTitle">Post Title</Form.Label>
+                <Form.Control
                     type="text"
                     id="postTitle"
                     name="postTitle"
@@ -35,17 +36,18 @@ const AddPostForm = () => {
                 />
 
                 <label htmlFor="postContent">Post content</label>
-                <textarea
+                <Form.Control
+                    as="textarea"
                     type="text"
                     id="postContent"
                     name="postContent"
                     value={content}
                     onChange={onContentChange}
                 />
-                <button onClick={onSavePost} type="button">
+                <Button onClick={onSavePost} type="button" classList="mt-2">
                     Save post
-                </button>
-            </form>
+                </Button>
+            </Form>
         </section>
     );
 };
